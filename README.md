@@ -19,18 +19,18 @@ Admin side:
 - just access to fake database, so no admin side needed.
 
 3. Techniques
-JQuery
-MySQL
-bootstrap
-OOP approach
+- JQuery
+- MySQL
+- bootstrap
+- OOP approach
 
 4. Division of work
-what-if score: Zhiyang Chen
-average score and standard division UI: Yuanxin Sun
-re-grade request: Shanshi Wang
-personal icon: Junyu Gong
-Basic UI: Zhiyang Chen
-Fake database: Junyu Gong
+- what-if score: Zhiyang Chen
+- average score and standard division UI: Yuanxin Sun
+- re-grade request: Shanshi Wang
+- personal icon: Junyu Gong
+- Basic UI: Zhiyang Chen
+- Fake database: Junyu Gong
 
 
 

@@ -1,9 +1,8 @@
-Grade Server Plus
-CMSC389N Group Project
-Zhiyang Chen
-Yuanxin Sun
-Shanshi Wang
-Junyu Gong
+Grade Server Plus - CMSC389N Group Project
+- Zhiyang Chen
+- Yuanxin Sun
+- Shanshi Wang
+- Junyu Gong
 
 1. UI Design
 TBD

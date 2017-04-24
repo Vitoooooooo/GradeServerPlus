@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Log In Page</title>
+    <title>Grade Server Plus</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -18,14 +18,26 @@
     <![endif]-->
   </head>
   <body>
-    <script language="JavaScript" src="login.js"></script>
-    <h1>Welcome to Grade Server Plus</h1>
-    <form name="loginInfo" action="main.php" onsubmit="return userPasswordValidation();" method="post">
-      User Name: <input name="username" type="text" required><br><br>
-      Password: <input name="password" type="text" required><br>
-      <input type="submit" value = "Log In" /><br>
-      Use user name 'admin' and password '123' for now. <br> @jerry please update this after you set up users database table.
-    </form>
+    <?php
+      $username = $_POST['username'];
+      echo "Welcome, <a href=\"settings.html\">$username</a>!";
+    ?>
+    <img src="sampleIcon.jpg" alt="Imagine a Hulk here.." style="width:50px;height:50px;"><br>
+    @Jerry please update this image after you create user table in the database.
+    
+    
+    <h1>Your grades</h1>
+    @Shanshi please update this table after you create grade tables in the database. You need to create those tables according to Jerry's users table.
+    <table border="1">
+      <tr><td>assignment</td><td>grade</td><td>Out Of</td><td>weight(%)</td><td></td></tr>
+      <tr><td>1</td><td>80</td><td>100</td><td>40</td><td><button>submit regrade request</button></td></tr> 
+      <tr><td>2</td><td>50</td><td>70</td><td>20</td><td><button>submit regrade request</button></td></tr>
+      <tr><td>3</td><td>95</td><td>100</td><td>40</td><td><button>submit regrade request</button></td></tr>
+    </table>
+    You total score: <br>
+    You total score after applying what-if scores: 
+    <button>clear all what-if scores</button>
+    
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

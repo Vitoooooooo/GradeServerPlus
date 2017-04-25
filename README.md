@@ -20,7 +20,7 @@ Admin side:
 3. Techniques
 - JQuery
 - MySQL
-- bootstrap
+- bootstrap.
 - OOP approach
 
 4. Division of work

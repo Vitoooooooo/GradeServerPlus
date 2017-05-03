@@ -20,9 +20,9 @@
   <body>
     <?php
       $username = $_POST['username'];
-      echo "Welcome, <a href=\"settings.html\">$username</a>!";
+      echo ">$username</a>!";
     ?>
-    <img src="sampleIcon.jpg" alt="Imagine a Hulk here.." style="width:50px;height:50px;"><br>
+    <img src="View/sampleIcon.jpg" alt="Imagine a Hulk here.." style="width:50px;height:50px;"><br>
     @Jerry please update this image after you create user table in the database.
     
     

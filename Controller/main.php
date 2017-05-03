@@ -20,7 +20,7 @@
   <body>
     <?php
       $username = $_POST['username'];
-      echo ">$username</a>!";
+      echo "<a herf=''>$username</a>!";
     ?>
     <img src="../View/sampleIcon.jpg" alt="Imagine a Hulk here.." style="width:50px;height:50px;"><br>
     @Jerry please update this image after you create user table in the database.

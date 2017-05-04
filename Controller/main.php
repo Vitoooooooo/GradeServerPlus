@@ -23,7 +23,7 @@
   <body>
     <?php
       $username = $_SESSION['username'];
-      echo "<a herf=''>$username</a>!";
+      echo "<a herf='settings.html'>$username</a>!";
     ?>
     <img src="../View/sampleIcon.jpg" alt="Imagine a Hulk here.." style="width:50px;height:50px;">
     <a href="logout.php?logout"></span>Log Out</a>
@@ -83,13 +83,12 @@
             echo "<tr><td>1</td><td>".$score."</td><td>".$maxScore."</td><td>".$weight."</td><td><button>submit regrade request</button></td></tr>";
           }
           echo "</table>";
+          echo " You total score: <br>";
+          echo "You total score after applying what-if scores: ";
+          echo "<button>clear all what-if scores</button>";
       }
     ?>
 
-
-    You total score: <br>
-    You total score after applying what-if scores: 
-    <button>clear all what-if scores</button>
     
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

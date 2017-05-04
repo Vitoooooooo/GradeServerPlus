@@ -1,3 +1,6 @@
+<?php
+  session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,21 +22,71 @@
   </head>
   <body>
     <?php
-      $username = $_POST['username'];
+      $username = $_SESSION['username'];
       echo "<a herf=''>$username</a>!";
     ?>
-    <img src="../View/sampleIcon.jpg" alt="Imagine a Hulk here.." style="width:50px;height:50px;"><br>
+    <img src="../View/sampleIcon.jpg" alt="Imagine a Hulk here.." style="width:50px;height:50px;">
+    <a href="logout.php?logout"></span>Log Out</a>
+    <br />
     @Jerry please update this image after you create user table in the database.
     
     
     <h1>Your grades</h1>
     @Shanshi please update this table after you create grade tables in the database. You need to create those tables according to Jerry's users table.
-    <table border="1">
-      <tr><td>assignment</td><td>grade</td><td>Out Of</td><td>weight(%)</td><td></td></tr>
-      <tr><td>1</td><td>80</td><td>100</td><td>40</td><td><button>submit regrade request</button></td></tr> 
-      <tr><td>2</td><td>50</td><td>70</td><td>20</td><td><button>submit regrade request</button></td></tr>
-      <tr><td>3</td><td>95</td><td>100</td><td>40</td><td><button>submit regrade request</button></td></tr>
-    </table>
+    <br />
+    
+      
+    <?php
+      require_once 'dbconnect.php';
+
+      // Get userId
+      $userNameResult=mysql_query("SELECT userId FROM users WHERE name='$username'");
+      $userNameResultRow=mysql_fetch_array($userNameResult);
+
+      $_SESSION['userId'] = $userNameResultRow['userId'];
+      $userId = $userNameResultRow['userId'];
+
+      // Get courseId
+      $courseIdResult=mysql_query("SELECT courseId FROM user_courses WHERE userId='$userId'");
+      while ($courseIdResultRow = mysql_fetch_array($courseIdResult)) {
+          $courseId = $courseIdResultRow['courseId'];
+
+          // Get course name
+          $courseNameResult=mysql_query("SELECT name FROM courses WHERE courseId='$courseId'");  
+          $courseNameResultRow = mysql_fetch_array($courseNameResult);
+
+          // Display course name and create table
+          echo "<h4>".$courseNameResultRow['name']."</h4>";
+          echo "<table border='1'>";
+          echo "<tr><th>assignment</th><th>grade</th><th>Out Of</th><th>weight(%)</th><th></th></tr>";
+
+
+          // Get all assginmentsIds for this course
+          $assignmentIdResult=mysql_query("SELECT assignmentId FROM course_assignments WHERE courseId='$courseId'");
+          while ($assignmentIdResultRow = mysql_fetch_array($assignmentIdResult)) {
+            $assignmentId = $assignmentIdResultRow['assignmentId'];
+
+            // Get grade for this assignment
+            $gradeResult=mysql_query("SELECT score FROM grades WHERE assignmentId='$assignmentId' And userId='$userId'");
+            $score = mysql_fetch_array($gradeResult)['score'];
+            if ($score == null) {
+              $score = 0;
+            }
+
+            // Get maxScore and weight for this assignment
+            $maxScoreWeightResult=mysql_query("SELECT max_score, weight FROM assignments WHERE assignmentId='$assignmentId'");
+            $maxScoreWeightResultRow = mysql_fetch_array($maxScoreWeightResult);
+            $maxScore = $maxScoreWeightResultRow['max_score'];
+            $weight = $maxScoreWeightResultRow['weight'];
+
+            // Display assgnment details
+            echo "<tr><td>1</td><td>".$score."</td><td>".$maxScore."</td><td>".$weight."</td><td><button>submit regrade request</button></td></tr>";
+          }
+          echo "</table>";
+      }
+    ?>
+
+
     You total score: <br>
     You total score after applying what-if scores: 
     <button>clear all what-if scores</button>

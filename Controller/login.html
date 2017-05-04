@@ -18,15 +18,15 @@
     <![endif]-->
   </head>
   <body>
-    <script language="JavaScript" src="login.js"></script>
     <h1>Welcome to Grade Server Plus</h1>
-    <form name="loginInfo" action="main.php" onsubmit="return userPasswordValidation();" method="post">
+    <form name="loginInfo" action="login.php" method="post">
       User Name: <input name="username" type="text" required><br><br>
       Password: <input name="password" type="text" required><br>
-      <input type="submit" value = "Log In" /><br>
-      Use user name 'admin' and password '123' for now. <br> @jerry please update this after you set up users database table.
+      <input type="submit" name="login" value = "Log In" /><br>
     </form>
-
+    <div>
+      <a href="register.html">Create an account</a>
+    </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

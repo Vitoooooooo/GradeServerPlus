@@ -1,5 +1,6 @@
 <?php
   session_start();
+  error_reporting(0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +24,7 @@
   <body>
     <?php
       $username = $_SESSION['username'];
-      echo "<a herf='settings.html'>$username</a>!";
+      echo "Welcome, <a href='settings.html'>$username</a>!";
     ?>
     <img src="../View/sampleIcon.jpg" alt="Imagine a Hulk here.." style="width:50px;height:50px;">
     <a href="logout.php?logout"></span>Log Out</a>
@@ -50,7 +51,7 @@
       $courseIdResult=mysql_query("SELECT courseId FROM user_courses WHERE userId='$userId'");
       while ($courseIdResultRow = mysql_fetch_array($courseIdResult)) {
           $courseId = $courseIdResultRow['courseId'];
-
+          $totalScore = 0;
           // Get course name
           $courseNameResult=mysql_query("SELECT name FROM courses WHERE courseId='$courseId'");  
           $courseNameResultRow = mysql_fetch_array($courseNameResult);
@@ -64,8 +65,9 @@
           // Get all assginmentsIds for this course
           $assignmentIdResult=mysql_query("SELECT assignmentId FROM course_assignments WHERE courseId='$courseId'");
           while ($assignmentIdResultRow = mysql_fetch_array($assignmentIdResult)) {
+            
             $assignmentId = $assignmentIdResultRow['assignmentId'];
-
+            
             // Get grade for this assignment
             $gradeResult=mysql_query("SELECT score FROM grades WHERE assignmentId='$assignmentId' And userId='$userId'");
             $score = mysql_fetch_array($gradeResult)['score'];
@@ -74,22 +76,23 @@
             }
 
             // Get maxScore and weight for this assignment
-            $maxScoreWeightResult=mysql_query("SELECT max_score, weight FROM assignments WHERE assignmentId='$assignmentId'");
+            $maxScoreWeightResult=mysql_query("SELECT max_score, weight, name FROM assignments WHERE assignmentId='$assignmentId'");
             $maxScoreWeightResultRow = mysql_fetch_array($maxScoreWeightResult);
             $maxScore = $maxScoreWeightResultRow['max_score'];
             $weight = $maxScoreWeightResultRow['weight'];
-
+            $name = $maxScoreWeightResultRow['name'];
             // Display assgnment details
-            echo "<tr><td>1</td><td>".$score."</td><td>".$maxScore."</td><td>".$weight."</td><td><button>submit regrade request</button></td></tr>";
+            echo "<tr><td>$assignmentId</td><td>"."<span id=\"lblName\" class=\"editable\">$score</span>"."</td><td>".$maxScore."</td><td>".$weight."</td><td><button>submit regrade request</button></td></tr>";
+            $totalScore += $score * $weight / 100.0;
+            $whatifTotal += $score * $weight / 100.0;
           }
           echo "</table>";
-          echo " You total score: <br>";
-          echo "You total score after applying what-if scores: ";
+          echo " You total score: $totalScore<br>";
+          echo "You total score after applying what-if scores: $whatifTotal";
           echo "<button>clear all what-if scores</button>";
       }
     ?>
 
-    
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2017 at 05:32 AM
+-- Generation Time: May 04, 2017 at 06:19 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -91,6 +91,7 @@ INSERT INTO `course_assignments` (`id`, `courseId`, `assignmentId`) VALUES
 --
 
 CREATE TABLE `grades` (
+  `id` int(11) NOT NULL,
   `userId` int(20) NOT NULL,
   `assignmentId` int(20) NOT NULL,
   `score` int(20) NOT NULL
@@ -100,11 +101,28 @@ CREATE TABLE `grades` (
 -- Dumping data for table `grades`
 --
 
-INSERT INTO `grades` (`userId`, `assignmentId`, `score`) VALUES
-(1, 1, 60),
-(1, 3, 60),
-(2, 4, 60),
-(2, 5, 70);
+INSERT INTO `grades` (`id`, `userId`, `assignmentId`, `score`) VALUES
+(1, 1, 1, 60),
+(2, 1, 3, 60),
+(3, 2, 4, 60),
+(4, 2, 5, 70),
+(5, 3, 1, 10),
+(6, 3, 3, 20),
+(7, 3, 4, 100),
+(8, 4, 4, 40),
+(9, 4, 5, 100),
+(10, 5, 4, 75),
+(11, 5, 5, 80),
+(12, 6, 4, 90),
+(13, 6, 5, 75),
+(14, 7, 4, 100),
+(15, 7, 5, 82),
+(16, 8, 4, 34),
+(17, 8, 5, 45),
+(18, 9, 4, 65),
+(19, 9, 5, 62),
+(20, 10, 4, 72),
+(21, 10, 5, 78);
 
 -- --------------------------------------------------------
 
@@ -126,7 +144,14 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`userId`, `name`, `password`, `image`) VALUES
 (1, 'a', '0cc175b9c0f1b6a831c399e269772661', ''),
 (2, 'b', '92eb5ffee6ae2fec3ad71c777531578f', ''),
-(3, 'c', '4a8a08f09d37b73795649038408b5f33', '');
+(3, 'c', '4a8a08f09d37b73795649038408b5f33', ''),
+(4, 'd', '8277e0910d750195b448797616e091ad', ''),
+(5, 'e', 'e1671797c52e15f763380b45e841ec32', ''),
+(6, 'f', '8fa14cdd754f91cc6554c9e71929cce7', ''),
+(7, 'g', 'b2f5ff47436671b6e533d8dc3614845d', ''),
+(8, 'h', '2510c39011c5be704182423e3a695e91', ''),
+(9, 'i', '865c0c0b4ab0e063e5caa3387c1a8741', ''),
+(10, 'j', '363b122c528f54df4a0446b6bab05515', '');
 
 -- --------------------------------------------------------
 
@@ -147,7 +172,16 @@ CREATE TABLE `user_courses` (
 INSERT INTO `user_courses` (`id`, `userId`, `courseId`) VALUES
 (1, 1, 2),
 (2, 2, 2),
-(3, 2, 6);
+(3, 2, 6),
+(4, 3, 2),
+(5, 3, 6),
+(6, 4, 6),
+(7, 5, 6),
+(8, 6, 6),
+(9, 7, 6),
+(10, 8, 6),
+(11, 9, 6),
+(12, 10, 6);
 
 --
 -- Indexes for dumped tables
@@ -177,6 +211,7 @@ ALTER TABLE `course_assignments`
 -- Indexes for table `grades`
 --
 ALTER TABLE `grades`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `userId` (`userId`),
   ADD KEY `assignmentId` (`assignmentId`);
 
@@ -214,15 +249,20 @@ ALTER TABLE `courses`
 ALTER TABLE `course_assignments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
+-- AUTO_INCREMENT for table `grades`
+--
+ALTER TABLE `grades`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `userId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `user_courses`
 --
 ALTER TABLE `user_courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- Constraints for dumped tables
 --

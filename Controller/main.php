@@ -21,11 +21,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
       <!-- Draw a visual graph -->
-      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-      <script type="text/javascript">
-          google.charts.load('current', {packages:['corechart']});
-          google.charts.setOnLoadCallback(drawChart);
-      </script>
+
   </head>
   <body>
     <?php
@@ -56,6 +52,7 @@
       // Get courseId
       $courseIdResult=mysql_query("SELECT courseId FROM user_courses WHERE userId='$userId'");
       $divNum = 0;
+      $divNum1 = 0;
       while ($courseIdResultRow = mysql_fetch_array($courseIdResult)) {
           $courseId = $courseIdResultRow['courseId'];
           $totalScore = 0;
@@ -139,8 +136,11 @@
           echo " You total score: $totalScore<br>";
           echo "You total score after applying what-if scores: $whatifTotal";
           echo "<button>clear all what-if scores</button>";
-          //echo "<span id='pieChart1' style='width: 450px; display: inline-block'></span>";
+          echo "<span id='pieChart$divNum1' style='width: 450px; display: inline-block'></span>";
+          $divNum1++;
+
       }
+    echo "<p id='Div2ToPass' style='display: none'>$divNum</p>";
     ?>
 
     <script>
@@ -151,18 +151,6 @@
             var totalScore = document.getElementById("ScoreToPass").textContent;
             var totalPeople = document.getElementById("PeopleToPass").textContent;
         }*/
-
-        function drawChart() {
-
-            var CourseData = google.visualization.arrayToDataTable([
-                ['Major', 'Degrees'],
-                ['Assignment One', 50], ['Assignment Three', 50]]);
-            var options = { pieSliceText: 'none' };
-            var chart = new google.visualization.PieChart(document.getElementById('pieChart1'));
-            chart.draw(CourseData, options);
-
-        }
-
         
         function showScoreStatistics(index) {
             var mean = document.getElementById("MeanToPass"+index).textContent;
@@ -176,6 +164,37 @@
         function BackButton(index1){
             var s = "displayStatistics"+index1;
             document.getElementById(s).innerHTML = "<input type='button' value='Score Statistics' onclick='showScoreStatistics("+index1+")'>";
+        }
+
+    </script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {packages:['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var divNum = document.getElementById("Div2ToPass").textContent;
+            var Course0Data = google.visualization.arrayToDataTable([
+                ['Major', 'Degrees'],
+                ['Assignment One', 50], ['Assignment Three', 50]]);
+            var Course1Data = google.visualization.arrayToDataTable([
+                ['Major', 'Degrees'],
+                ['Assignment Four', 40], ['Assignment Five', 60]]);
+            var options = { pieSliceText: 'none' };
+            var i = 0;
+            var chart;
+            var s;
+            for(i; i<=divNum; i++){
+                s = "Course"+i+"Data";
+                chart = new google.visualization.PieChart(document.getElementById('pieChart'+i));
+                if(i===0){
+                    chart.draw(Course0Data, options);
+                }else{
+                    chart.draw(Course1Data, options);
+                }
+            }
+
         }
 
     </script>

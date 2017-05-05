@@ -184,9 +184,7 @@
             var options = { pieSliceText: 'none' };
             var i = 0;
             var chart;
-            var s;
             for(i; i<=divNum; i++){
-                s = "Course"+i+"Data";
                 chart = new google.visualization.PieChart(document.getElementById('pieChart'+i));
                 if(i===0){
                     chart.draw(Course0Data, options);

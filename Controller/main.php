@@ -20,6 +20,12 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+      <!-- Draw a visual graph -->
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <script type="text/javascript">
+          google.charts.load('current', {packages:['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
+      </script>
   </head>
   <body>
     <?php
@@ -49,6 +55,7 @@
 
       // Get courseId
       $courseIdResult=mysql_query("SELECT courseId FROM user_courses WHERE userId='$userId'");
+      $divNum = 0;
       while ($courseIdResultRow = mysql_fetch_array($courseIdResult)) {
           $courseId = $courseIdResultRow['courseId'];
           $totalScore = 0;
@@ -59,15 +66,56 @@
           // Display course name and create table
           echo "<h4>".$courseNameResultRow['name']."</h4>";
           echo "<table border='1'>";
-          echo "<tr><th>assignment</th><th>grade</th><th>Out Of</th><th>weight(%)</th><th></th></tr>";
+          echo "<tr><th>assignment</th><th>grade</th><th>Out Of</th><th>weight(%)</th><th></th><th></th></tr>";
 
 
           // Get all assginmentsIds for this course
           $assignmentIdResult=mysql_query("SELECT assignmentId FROM course_assignments WHERE courseId='$courseId'");
           while ($assignmentIdResultRow = mysql_fetch_array($assignmentIdResult)) {
-            
+
             $assignmentId = $assignmentIdResultRow['assignmentId'];
-            
+
+            //Get the score statistics for this assignment;
+            $assignmentTotalScore = 0;
+            $numInThisAssignment = 0;
+            $lowestScore = 101;
+            $highestScore = -1;
+            $idName = "displayStatistics$divNum";
+            $scoreArray = [];
+            $grades = mysql_query("SELECT score FROM grades WHERE assignmentID='$assignmentId'");
+            while($scoresRow = mysql_fetch_array($grades, MYSQLI_ASSOC)){
+                $scores = $scoresRow['score'];
+                if($scores == null){
+                    $assignmentTotalScore = 0;
+                }else{
+                    $assignmentTotalScore += $scores;
+                }
+
+                if($scores < $lowestScore){
+                    $lowestScore = $scores;
+                }
+                if($scores > $highestScore){
+                    $highestScore = $scores;
+                }
+                $scoreArray[] = $scores;
+                $numInThisAssignment += 1;
+            }
+            $mean = round($assignmentTotalScore / $numInThisAssignment, 2);
+            $curStandard = 0;
+            for($i = 0; $i<sizeof($scoreArray); $i++){
+                $curStandard += pow(($scoreArray[$i]-$mean), 2);
+            }
+            $standardDeviation = round((sqrt(($curStandard/$numInThisAssignment))), 2);
+            echo "<p id='MeanToPass$divNum' style='display: none'>$mean</p>";
+            echo "<p id='StdDeviationToPass$divNum' style='display: none'>$standardDeviation</p>";
+            echo "<p id='MaxToPass$divNum' style='display: none'>$highestScore</p>";
+            echo "<p id='MinToPass$divNum' style='display: none'>$lowestScore</p>";
+            //
+
+            //Draw the Pie Chart
+            echo "<p id='CourseId$divNum' style='display: none'>$assignmentId</p>";
+            //
+
             // Get grade for this assignment
             $gradeResult=mysql_query("SELECT score FROM grades WHERE assignmentId='$assignmentId' And userId='$userId'");
             $score = mysql_fetch_array($gradeResult)['score'];
@@ -81,18 +129,56 @@
             $maxScore = $maxScoreWeightResultRow['max_score'];
             $weight = $maxScoreWeightResultRow['weight'];
             $name = $maxScoreWeightResultRow['name'];
-            // Display assgnment details
-            echo "<tr><td>$assignmentId</td><td>"."<span id=\"lblName\" class=\"editable\">$score</span>"."</td><td>".$maxScore."</td><td>".$weight."</td><td><button>submit regrade request</button></td></tr>";
+            // Display assignment details
+            echo "<tr><td>$assignmentId</td><td>"."<span id=\"lblName\" class=\"editable\">$score</span>"."</td><td>".$maxScore."</td><td>".$weight."</td><td><button>submit regrade request</button></td><td id=$idName><input type='button' value='Score Statistics' onclick='showScoreStatistics($divNum)'></td></tr><div></div>";
             $totalScore += $score * $weight / 100.0;
             $whatifTotal += $score * $weight / 100.0;
+            $divNum+=1;
           }
           echo "</table>";
           echo " You total score: $totalScore<br>";
           echo "You total score after applying what-if scores: $whatifTotal";
           echo "<button>clear all what-if scores</button>";
+          //echo "<span id='pieChart1' style='width: 450px; display: inline-block'></span>";
       }
     ?>
 
+    <script>
+
+        /*main()
+
+        function main() {
+            var totalScore = document.getElementById("ScoreToPass").textContent;
+            var totalPeople = document.getElementById("PeopleToPass").textContent;
+        }*/
+
+        function drawChart() {
+
+            var CourseData = google.visualization.arrayToDataTable([
+                ['Major', 'Degrees'],
+                ['Assignment One', 50], ['Assignment Three', 50]]);
+            var options = { pieSliceText: 'none' };
+            var chart = new google.visualization.PieChart(document.getElementById('pieChart1'));
+            chart.draw(CourseData, options);
+
+        }
+
+        
+        function showScoreStatistics(index) {
+            var mean = document.getElementById("MeanToPass"+index).textContent;
+            var std = document.getElementById("StdDeviationToPass"+index).textContent;
+            var maxScore = document.getElementById("MaxToPass"+index).textContent;
+            var minScore = document.getElementById("MinToPass"+index).textContent;
+            var s = "displayStatistics"+index;
+            document.getElementById(s).innerHTML = "Mean: "+mean+ ";&nbsp&nbspStd Dev: "+std+";&nbsp&nbspMaximum: "+maxScore+";&nbsp&nbspMinimum: "+minScore+"&nbsp&nbsp<input type='button' value='Close' onclick='BackButton("+index+")'>";
+        }
+
+        function BackButton(index1){
+            var s = "displayStatistics"+index1;
+            document.getElementById(s).innerHTML = "<input type='button' value='Score Statistics' onclick='showScoreStatistics("+index1+")'>";
+        }
+
+    </script>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

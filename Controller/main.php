@@ -53,6 +53,7 @@
       $courseIdResult=mysql_query("SELECT courseId FROM user_courses WHERE userId='$userId'");
       $divNum = 0;
       $divNum1 = 0;
+      $anotherCourseId = null;
       while ($courseIdResultRow = mysql_fetch_array($courseIdResult)) {
           $courseId = $courseIdResultRow['courseId'];
           $totalScore = 0;
@@ -64,6 +65,7 @@
           echo "<h4>".$courseNameResultRow['name']."</h4>";
           echo "<table border='1'>";
           echo "<tr><th>assignment</th><th>grade</th><th>Out Of</th><th>weight(%)</th><th></th><th></th></tr>";
+          $anotherCourseId = $courseNameResultRow['name'];
 
 
           // Get all assginmentsIds for this course
@@ -107,6 +109,7 @@
             echo "<p id='StdDeviationToPass$divNum' style='display: none'>$standardDeviation</p>";
             echo "<p id='MaxToPass$divNum' style='display: none'>$highestScore</p>";
             echo "<p id='MinToPass$divNum' style='display: none'>$lowestScore</p>";
+
             //
 
             //Draw the Pie Chart
@@ -140,7 +143,10 @@
           $divNum1++;
 
       }
-    echo "<p id='Div2ToPass' style='display: none'>$divNum</p>";
+    echo "<p id='Div2ToPass' style='display: none'>$divNum1</p>";
+    if($divNum1 == 1){
+        echo "<p id='CourseIdToPass' style='display: none'>$anotherCourseId</p>";
+    }
     ?>
 
     <script>
@@ -184,12 +190,22 @@
             var options = { pieSliceText: 'none' };
             var i = 0;
             var chart;
-            for(i; i<=divNum; i++){
+            if(divNum == 1){
                 chart = new google.visualization.PieChart(document.getElementById('pieChart'+i));
-                if(i===0){
+                var courseId = document.getElementById("CourseIdToPass").textContent;
+                if(courseId === "CMSC389N"){
                     chart.draw(Course0Data, options);
                 }else{
                     chart.draw(Course1Data, options);
+                }
+            }else {
+                for (i; i <= divNum; i++) {
+                    chart = new google.visualization.PieChart(document.getElementById('pieChart' + i));
+                    if (i === 0) {
+                        chart.draw(Course0Data, options);
+                    } else {
+                        chart.draw(Course1Data, options);
+                    }
                 }
             }
 

@@ -38,14 +38,13 @@
     @Shanshi please update this table after you create grade tables in the database. You need to create those tables according to Jerry's users table.
     <br />
     
-      
+
     <?php
       require_once 'dbconnect.php';
-
       // Get userId
       $userNameResult=mysql_query("SELECT userId FROM users WHERE name='$username'");
       $userNameResultRow=mysql_fetch_array($userNameResult);
-
+      
       $_SESSION['userId'] = $userNameResultRow['userId'];
       $userId = $userNameResultRow['userId'];
 
@@ -57,6 +56,7 @@
       while ($courseIdResultRow = mysql_fetch_array($courseIdResult)) {
           $courseId = $courseIdResultRow['courseId'];
           $totalScore = 0;
+          $whatifTotal = 0;
           // Get course name
           $courseNameResult=mysql_query("SELECT name FROM courses WHERE courseId='$courseId'");  
           $courseNameResultRow = mysql_fetch_array($courseNameResult);
@@ -130,16 +130,26 @@
             $weight = $maxScoreWeightResultRow['weight'];
             $name = $maxScoreWeightResultRow['name'];
             // Display assignment details
-            echo "<tr><td>$assignmentId</td><td>"."<span id=\"lblName\" class=\"editable\">$score</span>"."</td><td>".$maxScore."</td><td>".$weight."</td><td><button>submit regrade request</button></td><td id=$idName><input type='button' value='Score Statistics' onclick='showScoreStatistics($divNum)'></td></tr><div></div>";
-            $totalScore += $score * $weight / 100.0;
-            $whatifTotal += $score * $weight / 100.0;
+            $whatIfClass = 'whatif'.$assignmentId;
+            $whatifScore = $_GET[$whatIfClass];
+            if (isset($whatifScore)) {
+              $whatifTotal += 1.0 * $whatifScore * $weight / $maxScore;
+              $toshow = $whatifScore;
+            } else {
+              $toshow = $score;
+            }
+            echo "<tr><td>$name</td><td>"."<label class=\"pull-left\" title=\"click to input what-if scores\">$toshow</label><input class=\"$assignmentId\" type=\"text\" />"."</td><td>".$maxScore."</td><td>".$weight."</td><td><button>submit regrade request</button></td><td id=$idName><input type='button' value='Score Statistics' onclick='showScoreStatistics($divNum)'></td></tr><div></div>";
+            $totalScore += $score * $weight / $maxScore;
+            
             $divNum+=1;
           }
           echo "</table>";
+          
+          echo "<span id='pieChart$divNum1' style='width: 450px; display: inline-block'></span><br><br>";
           echo " You total score: $totalScore<br>";
-          echo "You total score after applying what-if scores: $whatifTotal";
-          echo "<button>clear all what-if scores</button>";
-          echo "<span id='pieChart$divNum1' style='width: 450px; display: inline-block'></span>";
+          echo "You total score after applying what-if scores: $whatifTotal<br>";
+          echo "<button onclick=\"clearWhatif()\">clear all what-if scores</button>";
+          
           $divNum1++;
 
       }
@@ -148,6 +158,12 @@
         echo "<p id='CourseIdToPass' style='display: none'>$anotherCourseId</p>";
     }
     ?>
+    <script type="text/javascript">
+      function clearWhatif() {
+        var url = window.location.href;
+        window.location.href = url.substring(0, url.search("\\?"));
+      }
+    </script>
 
     <script>
 
@@ -173,7 +189,93 @@
         }
 
     </script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript">
+      
+      
+      function endEdit(val, url, i) {
+        var s = "whatif" + i;
+        var pos = url.lastIndexOf(s);
+        if (pos == -1) {
+            if (url.search("\\?") !== -1) 
+              window.location.href += "&" + s + "=" + val;
+            else 
+              window.location.href += "?" + s + "=" + val;
+          }
+        else {
+          var toReplace = url.substring(pos, pos + 10);
+          var target = s + "=" + val;
+          window.location.href = url.replace(toReplace, target);
+        }
+        
+        
+      }
+      
+      $('.1').hide()
+      .focusout(function(e) {
+          var val = $(e.target).val();
+          
+          if (val < 10)
+            val = "0" + val;
+          
+          var url = window.location.href;
+          endEdit(val, url, 1);
+          
+        })
+      .prev().click(function () {
+        
+        $(this).hide();
+        $(this).next().show().focus();
+      });
+      $('.3').hide()
+      .focusout(function(e) {
+          var val = $(e.target).val();
+         
+          if (val < 10)
+            val = "0" + val;
+          
+          var url = window.location.href;
+          endEdit(val, url, 3);
+          
+        })
+      .prev().click(function () {
+        
+        $(this).hide();
+        $(this).next().show().focus();
+      });
+      $('.4').hide()
+      .focusout(function(e) {
+          var val = $(e.target).val();
+         
+          if (val < 10)
+            val = "0" + val;
+          
+          var url = window.location.href;
+          endEdit(val, url, 4);
+          
+        })
+      .prev().click(function () {
+        
+        $(this).hide();
+        $(this).next().show().focus();
+      });
+      $('.5').hide()
+      .focusout(function(e) {
+          var val = $(e.target).val();
+         
+          if (val < 10)
+            val = "0" + val;
+          
+          var url = window.location.href;
+          endEdit(val, url, 5);
+          
+        })
+      .prev().click(function () {
+        
+        $(this).hide();
+        $(this).next().show().focus();
+      });
+    </script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', {packages:['corechart']});

@@ -65,7 +65,7 @@
           // Display course name and create table
           echo "<h4>".$courseNameResultRow['name']."</h4>";
           echo "<table border='1'>";
-          echo "<tr><th>assignment</th><th>grade</th><th>Out Of</th><th>weight(%)</th><th></th><th></th></tr>";
+          echo "<tr><th>assignment</th><th>grade</th><th>Out Of</th><th>weight(%)</th><th></th></tr>";
           $anotherCourseId = $courseNameResultRow['name'];
 
 
@@ -314,12 +314,59 @@
             }
 
         }
-
+    
     </script>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    
+    <style>
+      table {
+  font-family: "Helvetica Neue", Helvetica, sans-serif
+}
+
+caption {
+  text-align: left;
+  color: silver;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 5px;
+}
+
+thead {
+  background: SteelBlue;
+  color: white;
+}
+
+th,
+td {
+  padding: 5px 10px;
+}
+
+tbody tr:nth-child(even) {
+  background: WhiteSmoke;
+}
+
+tbody tr td:nth-child(2) {
+  text-align:center;
+}
+
+tbody tr td:nth-child(3),
+tbody tr td:nth-child(4) {
+  text-align: right;
+  font-family: monospace;
+}
+
+tfoot {
+  background: SeaGreen;
+  color: white;
+  text-align: right;
+}
+
+tfoot tr th:last-child {
+  font-family: monospace;
+}
+
+    </style>
   </body>
 </html>

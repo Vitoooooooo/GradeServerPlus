@@ -14,6 +14,7 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+      <link rel="stylesheet" href="mainCSS.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -21,9 +22,9 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
       <!-- Draw a visual graph -->
-
   </head>
   <body>
+
     <?php
       $username = $_SESSION['username'];
       echo "Welcome, <a href='settings.html'>$username</a>!";
@@ -138,7 +139,7 @@
             } else {
               $toshow = $score;
             }
-            echo "<tr><td>$name</td><td>"."<label class=\"pull-left\" title=\"click to input what-if scores\">$toshow</label><input class=\"$assignmentId\" type=\"text\" />"."</td><td>".$maxScore."</td><td>".$weight."</td><td><button>submit regrade request</button></td><td id=$idName><input type='button' value='Score Statistics' onclick='showScoreStatistics($divNum)'></td></tr><div></div>";
+            echo "<tr><td>$name</td><td>"."<label class=\"pull-left\" title=\"click to input what-if scores\">$toshow</label><input class=\"$assignmentId\" type=\"text\" />"."</td><td>".$maxScore."</td><td>".$weight."</td><td id=$idName><input type='button' value='Score Statistics' onclick='showScoreStatistics($divNum)'></td></tr><div></div>";
             $totalScore += $score * $weight / $maxScore;
             
             $divNum+=1;
@@ -148,7 +149,8 @@
           echo "<span id='pieChart$divNum1' style='width: 450px; display: inline-block'></span><br><br>";
           echo " You total score: $totalScore<br>";
           echo "You total score after applying what-if scores: $whatifTotal<br>";
-          echo "<button onclick=\"clearWhatif()\">clear all what-if scores</button>";
+          echo "<button onclick=\"clearWhatif()\">clear all what-if scores</button><br>";
+          echo "<button onclick=\"location.href='regrade.php'\">submit regrade</button>";
           
           $divNum1++;
 

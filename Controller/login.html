@@ -6,7 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Log In Page</title>
-
+    <style>
+      body{
+        background-image: url('../View/1.jpg');
+      }
+      h1 {
+        color: white;
+        text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+      }
+    </style>
+    <!--<link rel="stylesheet" href="login.css">-->
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -17,12 +26,12 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
-    <h1>Welcome to Grade Server Plus</h1>
+  <body class="jumbotron text-center">
+    <h1>Welcome to Grade Server Plus</h1><br>
     <form name="loginInfo" action="login.php" method="post">
-      User Name: <input name="username" type="text" required><br><br>
-      Password: <input name="password" type="text" required><br>
-      <input type="submit" name="login" value = "Log In" /><br>
+      <strong>User Name:</strong> <input name="username" type="text" required><br><br>
+      <strong>Password:</strong> <input name="password" type="text" required><br><br>
+      <input type="submit" name="login" value = "Log In" /><br><br>
     </form>
     <div>
       <a href="register.html">Create an account</a>

@@ -141,14 +141,11 @@
             } else {
               $toshow = $score;
             }
-<<<<<<< Updated upstream
-            echo "<tr><td>$name</td><td>"."<label class=\"pull-left\" title=\"click to input what-if scores\">$toshow</label><input class=\"$assignmentId\" type=\"text\" />"."</td><td>".$maxScore."</td><td>".$weight."</td><td id=$idName><a href=\"#\" class=\"button\" onclick=\"showScoreStatistics($divNum)\">&nbsp&nbsp&nbsp&nbspScore Statistics<i class=\"icon-chevron-right\"></i></a></td></tr><div></div>";
-=======
 
             $student = new Student($username, $name, $toshow);
 
-            echo "<tr><td>$name</td><td>"."<label class=\"pull-left\" title=\"click to input what-if scores\">$toshow</label><input class=\"$assignmentId\" type=\"text\" />"."</td><td>".$maxScore."</td><td>".$weight."</td><td id=$idName><input type='button' value='Score Statistics' onclick='showScoreStatistics($divNum)'></td></tr><div></div>";
->>>>>>> Stashed changes
+            echo "<tr><td>$student->class</td><td>"."<label class=\"pull-left\" title=\"click to input what-if scores\">$student->grades</label><input class=\"$assignmentId\" type=\"text\" />"."</td><td>".$maxScore."</td><td>".$weight."</td><td id=$idName><input type='button' value='Score Statistics' onclick='showScoreStatistics($divNum)'></td></tr><div></div>";
+
             $totalScore += $score * $weight / $maxScore;
             
             $divNum+=1;

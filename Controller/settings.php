@@ -25,7 +25,7 @@
   <body>
     <h3>Profile Picture Change</h3>
     <form action="settings.php" method="POST" enctype="multipart/form-data">
-      <input type="file" name="image" /><input type="submit" name="submit" value="Upload" />
+      <input type="file" name="image" /><input class="btn btn-block btn-primary" type="submit" name="submit" value="Upload" />
       <br />
       <?php
   

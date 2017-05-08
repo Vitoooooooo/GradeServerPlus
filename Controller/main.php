@@ -141,23 +141,27 @@
             } else {
               $toshow = $score;
             }
+            if ($toshow == -1)
+              $toshow = 100;
+            if (strlen($toshow) == 2 && $toshow{0} == '0')
+              $toshow = $toshow{1};
 
             $student = new Student($username, $name, $toshow);
 
-            echo "<tr><td>$student->class</td><td>"."<label class=\"pull-left\" title=\"click to input what-if scores\">$student->grades</label><input class=\"$assignmentId\" type=\"text\" />"."</td><td>".$maxScore."</td><td>".$weight."</td><td id=$idName><a href=\"#\" class=\"button\" onclick=\"showScoreStatistics($divNum)\">&nbsp&nbsp&nbsp&nbspScore Statistics<i class=\"icon-chevron-right\"></i></a></td></tr><div></div></td></tr><div></div>";
+            echo "<tr><td>$student->class</td><td>"."<label class=\"pull-left\" title=\"click to input what-if scores\">$student->grades</label><input class=\"$assignmentId\" type=\"text\" />"."</td><td>".$maxScore."</td><td>".$weight."</td><td id=$idName><a class=\"button\" onclick=\"showScoreStatistics($divNum)\">&nbsp&nbsp&nbsp&nbspScore Statistics<i class=\"icon-chevron-right\"></i></a></td></tr><div></div></td></tr><div></div>";
 
             $totalScore += $score * $weight / $maxScore;
             
             $divNum+=1;
           }
-          echo "<tfoot><tr><th>Total:</th><th colspan=\"4\">$totalScore%</th></tr><tr title=\"You total score after applying what-if scores\"><th>What-if Total:</th><th colspan=\"3\">$whatifTotal%</th><th><a href=\"#\" class=\"button\" onclick=\"clearWhatif()\">Clear What-if Scores<i class=\"icon-chevron-right\"></i></a></th></tr></tfoot>";
+          echo "<tfoot><tr><th>Total:</th><th colspan=\"4\">$totalScore%</th></tr><tr title=\"You total score after applying what-if scores\"><th>What-if Total:</th><th colspan=\"3\">$whatifTotal%</th><th><a class=\"button\" onclick=\"clearWhatif($divNum1)\">Clear What-if Scores<i class=\"icon-chevron-right\"></i></a></th></tr></tfoot>";
           echo "</table>";
           
           echo "<span id='pieChart$divNum1' style='width: 450px; display: inline-block'></span><br>";
           
           
           
-          echo "<a href=\"#\" class=\"button\" onclick=\"location.href='regrade.php'\">&nbsp&nbsp&nbspRegrade Request<i class=\"icon-chevron-right\"></i></a>";
+          echo "<a class=\"button\" onclick=\"location.href='regrade.php'\">&nbsp&nbsp&nbspRegrade Request<i class=\"icon-chevron-right\"></i></a>";
           
           $divNum1++;
 
@@ -168,9 +172,20 @@
     }
     ?>
     <script type="text/javascript">
-      function clearWhatif() {
+      function clearWhatif(n) {
         var url = window.location.href;
-        window.location.href = url.substring(0, url.search("\\?"));
+        if (n === 0) {
+          if (url.search("whatif1") > 0)
+            url = url.replace(url.substring(url.search("whatif1"), url.search("whatif1") + 10), "");
+          if (url.search("whatif3") > 0)
+            url = url.replace(url.substring(url.search("whatif3"), url.search("whatif3") + 10), "");
+        } else {
+          if (url.search("whatif4") > 0)
+            url = url.replace(url.substring(url.search("whatif4"), url.search("whatif4") + 10), "");
+          if (url.search("whatif5") > 0)
+            url = url.replace(url.substring(url.search("whatif5"), url.search("whatif5") + 10), "");
+        }
+        window.location.href = url;
       }
     </script>
 
@@ -189,13 +204,13 @@
             var maxScore = document.getElementById("MaxToPass"+index).textContent;
             var minScore = document.getElementById("MinToPass"+index).textContent;
             var s = "displayStatistics"+index;
-            document.getElementById(s).innerHTML = "Mean: "+mean+ ";&nbsp&nbspStd Dev: "+std+";&nbsp&nbspMaximum: "+maxScore+";&nbsp&nbspMinimum: "+minScore+"&nbsp&nbsp<a href=\"#\" class=\"button\" onclick=\"BackButton("+index+")\">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspClose<i class=\"icon-chevron-right\"></i></a>";
+            document.getElementById(s).innerHTML = "Mean: "+mean+ ";&nbsp&nbspStd Dev: "+std+";&nbsp&nbspMaximum: "+maxScore+";&nbsp&nbspMinimum: "+minScore+"&nbsp&nbsp<a class=\"button\" onclick=\"BackButton("+index+")\">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspClose<i class=\"icon-chevron-right\"></i></a>";
             google.charts.setOnLoadCallback(drawChart(index));
         }
 
         function BackButton(index1){
             var s = "displayStatistics"+index1;
-            document.getElementById(s).innerHTML = "<a href=\"#\" class=\"button\" onclick=\"showScoreStatistics("+index1+")\">&nbsp&nbsp&nbsp&nbspScore Statistics<i class=\"icon-chevron-right\"></i></a></td></tr><div></div>";
+            document.getElementById(s).innerHTML = "<a class=\"button\" onclick=\"showScoreStatistics("+index1+")\">&nbsp&nbsp&nbsp&nbspScore Statistics<i class=\"icon-chevron-right\"></i></a></td></tr><div></div>";
             var a = "pieChart";
             if(index1 === 0 || index1 === 1){
                 a += "0";
@@ -211,6 +226,8 @@
       
       
       function endEdit(val, url, i) {
+        if (val == "100")
+          val = "-1";
         var s = "whatif" + i;
         var pos = url.lastIndexOf(s);
         if (pos == -1) {
@@ -378,7 +395,7 @@ tfoot tr th:last-child {
   font-family: monospace;
 }
 
-  @import url(http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css);
+  
   body{
 		background: #ECECEC;
 		margin:0px ;

@@ -139,7 +139,7 @@
             } else {
               $toshow = $score;
             }
-            echo "<tr><td>$name</td><td>"."<label class=\"pull-left\" title=\"click to input what-if scores\">$toshow</label><input class=\"$assignmentId\" type=\"text\" />"."</td><td>".$maxScore."</td><td>".$weight."</td><td id=$idName><input type='button' value='Score Statistics' onclick='showScoreStatistics($divNum)'></td></tr><div></div>";
+            echo "<tr><td>$name</td><td>"."<label class=\"pull-left\" title=\"click to input what-if scores\">$toshow</label><input class=\"$assignmentId\" type=\"text\" />"."</td><td>".$maxScore."</td><td>".$weight."</td><td id=$idName><input type='button' id='scoreStat' value='Score Statistics' onclick='showScoreStatistics($divNum)'></td></tr><div></div>";
             $totalScore += $score * $weight / $maxScore;
             
             $divNum+=1;
@@ -183,11 +183,19 @@
             var minScore = document.getElementById("MinToPass"+index).textContent;
             var s = "displayStatistics"+index;
             document.getElementById(s).innerHTML = "Mean: "+mean+ ";&nbsp&nbspStd Dev: "+std+";&nbsp&nbspMaximum: "+maxScore+";&nbsp&nbspMinimum: "+minScore+"&nbsp&nbsp<input type='button' value='Close' onclick='BackButton("+index+")'>";
+            google.charts.setOnLoadCallback(drawChart(index));
         }
 
         function BackButton(index1){
             var s = "displayStatistics"+index1;
             document.getElementById(s).innerHTML = "<input type='button' value='Score Statistics' onclick='showScoreStatistics("+index1+")'>";
+            var a = "pieChart";
+            if(index1 === 0 || index1 === 1){
+                a += "0";
+            }else{
+                a += "1";
+            }
+            document.getElementById(a).innerHTML = "";
         }
 
     </script>
@@ -281,40 +289,36 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', {packages:['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
 
-        function drawChart() {
+        function drawChart(index) {
             var divNum = document.getElementById("Div2ToPass").textContent;
             var Course0Data = google.visualization.arrayToDataTable([
                 ['Major', 'Degrees'],
-                ['Assignment One', 50], ['Assignment Three', 50]]);
+                ['Exam1', 50], ['Exam2', 50]]);
             var Course1Data = google.visualization.arrayToDataTable([
                 ['Major', 'Degrees'],
-                ['Assignment Four', 40], ['Assignment Five', 60]]);
+                ['Exam1', 40], ['Exam2', 60]]);
             var options = { pieSliceText: 'none' };
-            var i = 0;
             var chart;
-            if(divNum == 1){
-                chart = new google.visualization.PieChart(document.getElementById('pieChart'+i));
+            if(divNum == 1) {
+                chart = new google.visualization.PieChart(document.getElementById('pieChart' + 0));
                 var courseId = document.getElementById("CourseIdToPass").textContent;
-                if(courseId === "CMSC389N"){
+                if (courseId === "CMSC389N") {
                     chart.draw(Course0Data, options);
-                }else{
+                } else {
                     chart.draw(Course1Data, options);
                 }
-            }else {
-                for (i; i <= divNum; i++) {
-                    chart = new google.visualization.PieChart(document.getElementById('pieChart' + i));
-                    if (i === 0) {
-                        chart.draw(Course0Data, options);
-                    } else {
-                        chart.draw(Course1Data, options);
-                    }
+            }else{
+                if(index === 0 || index === 1){
+                    chart = new google.visualization.PieChart(document.getElementById('pieChart' + 0));
+                    chart.draw(Course0Data, options);
+                }else{
+                    chart = new google.visualization.PieChart(document.getElementById('pieChart' + 1));
+                    chart.draw(Course1Data, options);
                 }
             }
-
         }
-    
+
     </script>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

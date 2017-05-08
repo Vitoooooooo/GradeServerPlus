@@ -22,10 +22,12 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body class="container">
+  <div class="form-group row">
     <h3>Profile Picture Change</h3>
     <form action="settings.php" method="POST" enctype="multipart/form-data">
-      <input type="file" name="image" /><input class="btn btn-block btn-primary" type="submit" name="submit" value="Upload" />
+      <input type="file" name="image" /><br>
+        <input style="width: 100px; height: 30px" class="btn btn-block btn-primary" type="submit" name="submit" value="Upload" />
       <br />
       <?php
   
@@ -99,7 +101,7 @@
         }
       ?>
       <hr />
-      <input type="submit" class="btn btn-block btn-primary" name="chanegPassword" value="Submit"/>
+      <input style="width: 100px; height: 30px" type="submit" class="btn btn-block btn-primary" name="chanegPassword" value="Submit"/>
       <br />
       
     </form>
@@ -108,6 +110,6 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    
+  </div>
   </body>
 </html>

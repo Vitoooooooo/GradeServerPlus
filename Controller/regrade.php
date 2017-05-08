@@ -42,7 +42,7 @@ $body = <<<EOBODY
     </fieldset>
     <div class="form-group row">
       <div class="offset-sm-2 col-sm-10">
-        <input type="submit" class="btn btn-primary" name="submit data" value="Submit Regrade"></input>
+        <input type="submit" class="btn btn-primary" name="submit data" value="Submit Regrade"</input>
       </div>
     </div>
   </form>

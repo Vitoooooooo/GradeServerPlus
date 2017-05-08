@@ -66,7 +66,7 @@
           // Display course name and create table
           echo "<h4>".$courseNameResultRow['name']."</h4>";
           echo "<table border='1'>";
-          echo "<thead><tr><th>assignment</th><th>grade</th><th>Out Of</th><th>weight(%)</th><th></th></tr></thead>";
+          echo "<thead><tr><th>assignment</th><th>grade</th><th>Out Of</th><th>weight(%)</th><th>action</th></tr></thead>";
           $anotherCourseId = $courseNameResultRow['name'];
 
 

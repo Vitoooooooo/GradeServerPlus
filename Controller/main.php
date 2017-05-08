@@ -32,11 +32,11 @@
     <img src="../View/sampleIcon.jpg" alt="Imagine a Hulk here.." style="width:50px;height:50px;">
     <a href="logout.php?logout"></span>Log Out</a>
     <br />
-    @Jerry please update this image after you create user table in the database.
+    
     
     
     <h1>Your grades</h1>
-    @Shanshi please update this table after you create grade tables in the database. You need to create those tables according to Jerry's users table.
+    
     <br />
     
 
@@ -65,7 +65,7 @@
           // Display course name and create table
           echo "<h4>".$courseNameResultRow['name']."</h4>";
           echo "<table border='1'>";
-          echo "<tr><th>assignment</th><th>grade</th><th>Out Of</th><th>weight(%)</th><th></th></tr>";
+          echo "<thead><tr><th>assignment</th><th>grade</th><th>Out Of</th><th>weight(%)</th><th></th></tr></thead>";
           $anotherCourseId = $courseNameResultRow['name'];
 
 
@@ -139,18 +139,19 @@
             } else {
               $toshow = $score;
             }
-            echo "<tr><td>$name</td><td>"."<label class=\"pull-left\" title=\"click to input what-if scores\">$toshow</label><input class=\"$assignmentId\" type=\"text\" />"."</td><td>".$maxScore."</td><td>".$weight."</td><td id=$idName><input type='button' id='scoreStat' value='Score Statistics' onclick='showScoreStatistics($divNum)'></td></tr><div></div>";
+            echo "<tr><td>$name</td><td>"."<label class=\"pull-left\" title=\"click to input what-if scores\">$toshow</label><input class=\"$assignmentId\" type=\"text\" />"."</td><td>".$maxScore."</td><td>".$weight."</td><td id=$idName><a href=\"#\" class=\"button\" onclick=\"showScoreStatistics($divNum)\">&nbsp&nbsp&nbsp&nbspScore Statistics<i class=\"icon-chevron-right\"></i></a></td></tr><div></div>";
             $totalScore += $score * $weight / $maxScore;
             
             $divNum+=1;
           }
+          echo "<tfoot><tr><th>Total:</th><th colspan=\"4\">$totalScore%</th></tr><tr title=\"You total score after applying what-if scores\"><th>What-if Total:</th><th colspan=\"3\">$whatifTotal%</th><th><a href=\"#\" class=\"button\" onclick=\"clearWhatif()\">Clear What-if Scores<i class=\"icon-chevron-right\"></i></a></th></tr></tfoot>";
           echo "</table>";
           
-          echo "<span id='pieChart$divNum1' style='width: 450px; display: inline-block'></span><br><br>";
-          echo " You total score: $totalScore<br>";
-          echo "You total score after applying what-if scores: $whatifTotal<br>";
-          echo "<button onclick=\"clearWhatif()\">clear all what-if scores</button><br>";
-          echo "<button onclick=\"location.href='regrade.php'\">submit regrade</button>";
+          echo "<span id='pieChart$divNum1' style='width: 450px; display: inline-block'></span><br>";
+          
+          
+          
+          echo "<a href=\"#\" class=\"button\" onclick=\"location.href='regrade.php'\">&nbsp&nbsp&nbspRegrade Request<i class=\"icon-chevron-right\"></i></a>";
           
           $divNum1++;
 
@@ -182,13 +183,13 @@
             var maxScore = document.getElementById("MaxToPass"+index).textContent;
             var minScore = document.getElementById("MinToPass"+index).textContent;
             var s = "displayStatistics"+index;
-            document.getElementById(s).innerHTML = "Mean: "+mean+ ";&nbsp&nbspStd Dev: "+std+";&nbsp&nbspMaximum: "+maxScore+";&nbsp&nbspMinimum: "+minScore+"&nbsp&nbsp<input type='button' value='Close' onclick='BackButton("+index+")'>";
+            document.getElementById(s).innerHTML = "Mean: "+mean+ ";&nbsp&nbspStd Dev: "+std+";&nbsp&nbspMaximum: "+maxScore+";&nbsp&nbspMinimum: "+minScore+"&nbsp&nbsp<a href=\"#\" class=\"button\" onclick=\"BackButton("+index+")\">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspClose<i class=\"icon-chevron-right\"></i></a>";
             google.charts.setOnLoadCallback(drawChart(index));
         }
 
         function BackButton(index1){
             var s = "displayStatistics"+index1;
-            document.getElementById(s).innerHTML = "<input type='button' value='Score Statistics' onclick='showScoreStatistics("+index1+")'>";
+            document.getElementById(s).innerHTML = "<a href=\"#\" class=\"button\" onclick=\"showScoreStatistics("+index1+")\">&nbsp&nbsp&nbsp&nbspScore Statistics<i class=\"icon-chevron-right\"></i></a></td></tr><div></div>";
             var a = "pieChart";
             if(index1 === 0 || index1 === 1){
                 a += "0";
@@ -371,6 +372,40 @@ tfoot tr th:last-child {
   font-family: monospace;
 }
 
+  @import url(http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css);
+  body{
+		background: #ECECEC;
+		margin:0px ;
+		color:#333;
+	}
+	a.button{
+		background: #ECECEC;
+		border-radius: 15px;
+		padding: 5px 1px;
+		display: block;
+		font-family: arial;
+		font-weight: bold;
+		color:#7f7f7f;
+		text-decoration: none;
+		text-shadow:0px 1px 0px #fff;
+		border:1px solid #a7a7a7;
+		width: 145px;
+		
+    font:10;	
+		box-shadow: 0px 2px 1px white inset, 0px -2px 8px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+		-webkit-transition:box-shadow 0.5s;
+	}
+	a.button i{
+		float: right;
+
+	}
+	a.button:hover{
+		box-shadow: 0px 2px 1px white inset, 0px -2px 20px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+	}
+	a.button:active{
+		box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset, 0px -2px 20px white, 0px 1px 5px rgba(0, 0, 0, 0.1), 0px 2px 10px rgba(0, 0, 0, 0.1);
+		background:-webkit-linear-gradient(top, #d1d1d1 0%,#ECECEC 100%);
+	}
     </style>
   </body>
 </html>

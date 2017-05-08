@@ -26,10 +26,12 @@
   <body>
 
     <?php
+      require_once 'getImage.php';
       $username = $_SESSION['username'];
-      echo "Welcome, <a href='settings.html'>$username</a>!";
+      $userImage = $_SESSION['image'];
+      echo "Welcome, <a href='settings.php'>$username</a>!";
+      echo $_SESSION['image'];
     ?>
-    <img src="../View/sampleIcon.jpg" alt="Imagine a Hulk here.." style="width:50px;height:50px;">
     <a href="logout.php?logout"></span>Log Out</a>
     <br />
     

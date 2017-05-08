@@ -32,7 +32,8 @@
    $res = mysql_query($query);
     
    if ($res) {
-    echo "Successfully registered, you may login now";
+    echo "Successfully registered, you may login now"."<br />";
+    echo "<a href=login.html>Sign in Here...</a>";
     unset($username);
     unset($password);
    } else {

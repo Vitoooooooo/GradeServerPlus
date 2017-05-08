@@ -21,7 +21,7 @@
     $_SESSION['username'] = $row['name'];
     header("Location: main.php");
   } else {
-    echo "Incorrect Credentials, Try again...<br />";
+    echo "Incorrect Credentials, Try again...<br />+";
     echo "<a href=login.html>Go back to login page</a>";
   }  
  }

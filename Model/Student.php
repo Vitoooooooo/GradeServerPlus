@@ -8,13 +8,11 @@ class Student
 {
     var $name;
     var $class;
-    var $UID;
     var $grades;   // grades as an array, assignment->grade
 
-    function __construct($name, $class, $UID, $grades) {
+    function __construct($name, $class, $grades) {
         $this->name = $name;
         $this->class = $class;
-        $this->UID = $UID;
         $this->grades = $grades;
     }
 
@@ -24,10 +22,6 @@ class Student
 
     function getClass() {
         return $this->class;
-    }
-
-    function getUID() {
-        return $this->UID;
     }
 
     function getGrades() {
